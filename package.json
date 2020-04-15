@@ -1,0 +1,83 @@
+{
+	"name": "umi-electron-biolerplate",
+	"version": "0.0.1",
+	"private": true,
+	"description": "An example based on umijs v3 + electron + typescript",
+	"main": "./dist/main/main.js",
+	"build": {
+		"appId": "com.vincentx.umi-electron-biolerplate",
+		"files": [
+			"dist/",
+			"node_modules/",
+			"package.json"
+		],
+		"directories": {
+			"output": "release"
+		}
+	},
+	"scripts": {
+		"start:umi": "cross-env NODE_ENV=development BROWSER=none APP_ROOT=app umi dev",
+		"start:electron": "cross-env NODE_ENV=development electron-webpack dev",
+		"start": "concurrently \"yarn start:umi\" \"yarn start:electron\"",
+		"postinstall": "umi generate tmp",
+		"prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+		"build:umi": "APP_ROOT=app umi build",
+		"build:mac": "electron-builder --mac",
+		"build:windows": "electron-builder --win",
+		"build:linux": "electron-builder --linux",
+		"build:electron": "electron-builder -mwl",
+		"build:electron:prod": "NODE_ENV=production webpack --config ./build/webpack.main.prod.config.js",
+		"build:electron:dev": "NODE_ENV=development webpack --config ./build/webpack.main.config.js",
+		"test": "umi-test",
+		"test:coverage": "umi-test --coverage",
+		"packing": "yarn run build:electron:prod && yarn run build:electron"
+	},
+	"gitHooks": {
+		"pre-commit": "lint-staged"
+	},
+	"lint-staged": {
+		"*.{js,jsx,less,md,json}": [
+			"prettier --write"
+		],
+		"*.ts?(x)": [
+			"prettier --parser=typescript --write"
+		]
+	},
+	"dependencies": {
+		"@umijs/preset-react": "1.x",
+		"@umijs/test": "^3.1.1",
+		"lint-staged": "^10.0.7",
+		"prettier": "^1.19.1",
+		"react": "^16.12.0",
+		"react-dom": "^16.12.0",
+		"umi": "^3.1.1",
+		"yorkie": "^2.0.0"
+	},
+	"devDependencies": {
+		"@types/node": "^12",
+		"awesome-typescript-loader": "^5.2.1",
+		"concurrently": "^5.1.0",
+		"cross-env": "^7.0.2",
+		"devtron": "^1.4.0",
+		"electron": "^8.2.2",
+		"electron-builder": "^22.4.1",
+		"electron-debug": "^3.0.1",
+		"electron-webpack": "^2.8.2",
+		"electron-webpack-ts": "^4.0.1",
+		"nodemon": "^2.0.3",
+		"ts-loader": "^7.0.0",
+		"wait-on": "^4.0.2",
+		"webpack-merge": "^4.2.2"
+	},
+	"electronDownload": {
+		"mirror": "https://npm.taobao.org/mirrors/electron/"
+	},
+	"electronWebpack": {
+		"main": {
+			"sourceDirectory": "electron"
+		},
+		"renderer": {
+			"sourceDirectory": null
+		}
+	}
+}
